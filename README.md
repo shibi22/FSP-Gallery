@@ -29,5 +29,5 @@ Click the **Fork** button (top right) to make your own copy of this repo.
 ### 2️⃣ Clone Your Fork
 Copy the HTTPS or SSH link from your fork and clone it locally:
 ```bash
-git clone https://github.com/YOUR-USERNAME/FSP-Gallery.git
+git clone https://github.com/shibi22/FSP-Gallery.git
 cd FSP-Gallery
