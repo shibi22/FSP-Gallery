@@ -1,9 +1,9 @@
+import React from 'react'
+import WorkoutPlan from './workoutplan'
 function App() {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>My Todo Application 📝</h1>
-    </div>
-  );
+    <WorkoutPlan/>
+  )
 }
 
-export default App;
+export default App
