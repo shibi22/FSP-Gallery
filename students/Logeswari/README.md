@@ -1,7 +1,7 @@
 # 🚀 Logeshwari's Project
 
 ## 🧩 Project Title:
-Weather App
+
 
 ## 🧠 Description:
 A simple weather application built with React and OpenWeather API.
