@@ -1,19 +1,50 @@
-import React from "react"; 
-import { IoIosArrowBack } from "react-icons/io"; 
+import React, { useState } from "react";
+import { IoIosArrowBack } from "react-icons/io";
 import woman from "./assets/woman.png";
-import { MdHomeFilled } from "react-icons/md"; 
-import { MdBarChart } from "react-icons/md";
+import { MdHomeFilled, MdBarChart, MdDelete } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
-import { IoMdAdd } from "react-icons/io";
-import { RiDeleteBin6Fill } from "react-icons/ri";
-
+import { BiSolidMessageSquareAdd } from "react-icons/bi";
 
 function WorkoutPlan() {
-  return (
-    <div className="min-h-screen bg-background-light font-display">
+  const [tasks, setTasks] = useState([
+    { id: 1, text: "30 Min Treadmill Run", completed: false },
+    { id: 2, text: "3x12 Dumbbell Bench Press", completed: false },
+    { id: 3, text: "Cool-down and Stretching", completed: false },
+    { id: 4, text: "Plank for 60 Seconds", completed: false },
+  ]);
 
+  const [newTask, setNewTask] = useState("");
+
+  const addTask = () => {
+    if (newTask.trim() === "") {
+      alert("Empty task not allowed");
+      return;
+    } 
+    const newTaskObj = {
+      id: tasks.length + 1,
+      text: newTask,
+      completed: false,
+    };
+    setTasks([...tasks, newTaskObj]);
+    setNewTask("");
+  };
+
+  const toggleTaskCompletion = (index) => {
+    const updatedTasks = tasks.map((task, i) =>
+      i === index ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+  };
+
+  const deleteTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+  };
+
+  return (
+    <div className="min-h-screen bg-background-light font-display p-4">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 ">
+      <div className="flex items-center justify-between pb-2">
         <button className="h-10 w-10 flex items-center justify-center">
           <IoIosArrowBack className="h-10 w-10" />
         </button>
@@ -21,83 +52,55 @@ function WorkoutPlan() {
       </div>
 
       {/* Title */}
-      <h1 className="px-4 text-[28px] font-bold text-gray-800">
+      <h1 className="pt-6 pb-3 text-[32px] font-bold text-gray-800">
         Daily Workout Plan
       </h1>
 
-      {/* Content */}
-      <div className="p-4 flex flex-col gap-6 pb-24">
+      {/* Input */}
+      <div className="relative mb-6">
+        <input
+          type="text"
+          placeholder="Add today's workout plan"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          className="w-full rounded-xl border border-gray-200 bg-card-light px-4 py-4 pr-14 text-gray-800 placeholder:text-text-subtle-light focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-200"
+        />
+        <button
+          className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg bg-accent text-black flex items-center justify-center"
+          onClick={addTask}
+        >
+          <BiSolidMessageSquareAdd className="text-4xl" />
+        </button>
+      </div>
 
-        {/* Input */}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Add today's workout plan"
-            className="w-full rounded-xl border border-gray-200 px-4 py-4 pr-14 text-gray-800"
-          />
-          <button className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg text-black flex items-center justify-center">
-            <IoMdAdd className="text-2xl" />
-          </button>
-        </div>
-
-        {/* Tasks 1*/}
-        <div className="flex flex-col gap-4">
-
-          <div className="flex items-center justify-between gap-4 rounded-xl p-4 shadow">
+      {/* Tasks List */}
+      <div className="flex flex-col gap-4">
+        {tasks.map((task, index) => (
+          <div
+            key={task.id}
+            className="flex items-center justify-between gap-4 rounded-xl bg-card-light p-4 shadow"
+          >
             <div className="flex items-center gap-4">
-              <input type="checkbox" className="h-6 w-6 rounded-md" />
-              <span className="text-gray-800">30 Min Treadmill Run</span>
+              <input
+                type="checkbox"
+                className="h-6 w-6 rounded-md"
+                checked={task.completed}
+                onChange={() => toggleTaskCompletion(index)}
+              />
+              <span
+                className={`text-gray-800 ${
+                  task.completed ? "line-through" : ""
+                }`}
+              >
+                {task.text}
+              </span>
             </div>
-<button className="text-gray-500">
-  <RiDeleteBin6Fill className="text-2xl" />
-</button>
-
-
-
+            <MdDelete
+              className="text-4xl text-text-subtle-light hover:text-red-500"
+              onClick={() => deleteTask(index)}
+            />
           </div>
-        {/* Tasks 2 */}
-
-          <div className="flex items-center justify-between gap-4 rounded-xl p-4 shadow">
-            <div className="flex items-center gap-4">
-              <input type="checkbox" className="h-6 w-6 rounded-md" />
-              <span className="text-gray-800">3x12 Dumbbell Bench Press</span>
-            </div>
-            <button className="text-gray-500">
-  <RiDeleteBin6Fill className="text-2xl" />
-</button>
-
-
-
-          </div>
-        {/* Tasks3 */}
-
-          <div className="flex items-center justify-between gap-4 rounded-xl p-4 shadow">
-            <div className="flex items-center gap-4">
-              <input type="checkbox" defaultChecked className="h-6 w-6 rounded-md" />
-              <span className="text-gray-800">Cool-down and Stretching</span>
-            </div>
-            <button className="text-gray-500">
-  <RiDeleteBin6Fill className="text-2xl" />
-</button>
-
-
-
-          </div>
-        {/* Tasks 4*/}
-
-          <div className="flex items-center justify-between gap-4 rounded-xl p-4 shadow">
-            <div className="flex items-center gap-4">
-              <input type="checkbox" className="h-6 w-6 rounded-md" />
-              <span className="text-gray-800">Plank for 60Seconds</span>
-            </div>
-<button className="text-gray-500">
-  <RiDeleteBin6Fill className="text-2xl" />
-</button>
-
-
-          </div>
-
-        </div>
+        ))}
       </div>
 
       {/* Bottom NavBar */}
@@ -106,7 +109,7 @@ function WorkoutPlan() {
           <MdHomeFilled className="text-2xl" />
           <span className="text-xs">Home</span>
         </button>
-        <button className="flex-1 flex flex-col items-center">
+        <button className="flex-1 flex flex-col items-center text-accent">
           <MdBarChart className="text-2xl" />
           <span className="text-xs">Progress</span>
         </button>
@@ -115,9 +118,9 @@ function WorkoutPlan() {
           <span className="text-xs">Settings</span>
         </button>
       </div>
-
     </div>
   );
 }
 
 export default WorkoutPlan;
+
